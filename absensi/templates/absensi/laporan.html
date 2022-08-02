@@ -1,0 +1,61 @@
+{% extends 'absensi/main.html' %}
+
+{% block content%}
+
+<div class="container">
+    <div class="col-lg-12 mb-4" id="container">
+        <div class="card border-bottom-primary shadow mb-4 bounce animated">
+            <div class="card-body">
+                <form action="/pdf" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Tanggal Awal</label>
+                                <input type="date" name="awal" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Tanggal Awal</label>
+                                <input type="date" name="ahir" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
+                </form>
+                <!-- <a href="{{'/pdf'}}">print</a> -->
+                <br>
+                <h1 style="text-align: center">{{ judul }}</h1>
+                <div class="table-responsive">
+                    <table class="table text-center table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th width="1%">No</th>
+                                <th>Nama Guru</th>
+                                <th>Jabatan</th>
+                                <th>Tanggal</th>
+                                <th>Jam Absen</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in tampil %}
+                            <tr>
+                                <td style="text-align: center">{{ forloop.counter }}</td>
+                                <td>{{ data.guru }}</td>
+                                <td>{{ data.guru.jabatan }}</td>
+                                <td>{{ data.jam_masuk | date:'d-m-Y' }}</td>
+                                <td>{{ data.jam_masuk | date:'H:i'}}</td>
+                                <td>{{ data.keterangan }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock content%}
